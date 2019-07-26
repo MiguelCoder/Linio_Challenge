@@ -4,16 +4,12 @@ namespace Src;
 
 use Src\Entity\Entity;
 
-use Src\EntityNumbersGenerator;
-
 class EntityManager
 {
     private $numbers;
-    private $entityNumbersGenerator;
 
     public function __construct($size)
     {
-        $this->entityNumbersGenerator = new EntityNumbersGenerator();
         $this->numbers = range(0, $size);
     }
 
@@ -21,7 +17,6 @@ class EntityManager
     {
         foreach ($entities as $entity) {
             if (isset($entity)){ 
-                $this->getEntityNumbersGenerator()->populateEntity($entity, $size);
                 $this->merge($entity, $size);
             }
         }
@@ -49,10 +44,5 @@ class EntityManager
     public function setNumber($key, $value)
     {
         return $this->numbers[$key] = $value;
-    }
-
-    public function getEntityNumbersGenerator()
-    {
-        return $this->entityNumbersGenerator;
     }
 }

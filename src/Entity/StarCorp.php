@@ -6,12 +6,6 @@ class StarCorp implements Entity
 {
     const NAME = 'StarCorp';
     const SPECIAL_NUMBER = 3;
-    private $entityNumbers;
-
-    public function getEntityNumbers()
-    {
-        return $this->entityNumbers;
-    }
 
     public static function getSpecialNumber()
     {
@@ -21,10 +15,5 @@ class StarCorp implements Entity
     public static function getName()
     {
         return self::NAME;
-    }
-
-    public function addEntityNumber($num)
-    {
-        $this->entityNumbers[$num] = $this->getName();
     }
 }

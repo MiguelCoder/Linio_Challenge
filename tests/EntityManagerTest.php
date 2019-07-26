@@ -14,32 +14,30 @@ use Src\Entity\IT;
 
 use Src\Entity\StarCorp;
 
-use Src\EntityNumbersGenerator;
-
 class EntityManagerTest extends TestCase
 {
 	public function testExpectStarCorpActualStarCorp() 
 	{
 		$this->expectOutputString('StarCorp');
-		$entity = new EntityManager(5);
-		$entity->mergeEntitiesIntoNumbers([new StarCorp], 5);
-		print $entity->getNumber(3);
+		$entityManager = new EntityManager(5);
+		$entityManager->mergeEntitiesIntoNumbers([new StarCorp], 5);
+		print $entityManager->getNumber(3);
 	}
 
 	public function testExpectITActualIT() 
 	{
 		$this->expectOutputString('IT');
-		$entity = new EntityManager(10);
-		$entity->mergeEntitiesIntoNumbers([new IT], 10);
-		print $entity->getNumber(5);
+		$entityManager = new EntityManager(10);
+		$entityManager->mergeEntitiesIntoNumbers([new IT], 10);
+		print $entityManager->getNumber(5);
 	}
 
 	public function testExpectStarCorpianosActualStarCorpianos() 
 	{
 		$this->expectOutputString('StarCorpianos');
-		$entity = new EntityManager(20);
-		$entity->mergeEntitiesIntoNumbers([new StarCorpianos], 20);
-		print $entity->getNumber(15);
+		$entityManager = new EntityManager(20);
+		$entityManager->mergeEntitiesIntoNumbers([new StarCorpianos], 20);
+		print $entityManager->getNumber(15);
 	}
 
 	public function testPrintFormattedNumbers()
@@ -77,9 +75,9 @@ class EntityManagerTest extends TestCase
      */
     public function testMergeStarCorp($value, $expected)
     {
-		$entity = new EntityManager(3);
-		$entity->mergeEntitiesIntoNumbers([new StarCorp], 3);
-        $this->assertEquals($expected, $entity->getNumber($value));
+		$entityManager = new EntityManager(3);
+		$entityManager->mergeEntitiesIntoNumbers([new StarCorp], 3);
+        $this->assertEquals($expected, $entityManager->getNumber($value));
 	}
 	
 	public function dataIT()
@@ -98,9 +96,9 @@ class EntityManagerTest extends TestCase
      */
     public function testMergeIT($value, $expected)
     {
-		$entity = new EntityManager(5);
-		$entity->mergeEntitiesIntoNumbers([new IT], 5);
-        $this->assertEquals($expected, $entity->getNumber($value));
+		$entityManager = new EntityManager(5);
+		$entityManager->mergeEntitiesIntoNumbers([new IT], 5);
+        $this->assertEquals($expected, $entityManager->getNumber($value));
 	}
 
 	public function dataStarCorpianos()
@@ -129,9 +127,40 @@ class EntityManagerTest extends TestCase
      */
     public function testMergeStarCorpianos($value, $expected)
     {
-		$entity = new EntityManager(15);
-		$entity->mergeEntitiesIntoNumbers([new StarCorpianos], 15);
-        $this->assertEquals($expected, $entity->getNumber($value));
+		$entityManager = new EntityManager(15);
+		$entityManager->mergeEntitiesIntoNumbers([new StarCorpianos], 15);
+        $this->assertEquals($expected, $entityManager->getNumber($value));
+	}
+
+	public function dataEntities()
+    {
+        return [
+            [1, 1],
+            [2, 2],
+			[3, StarCorp::NAME],
+			[4, 4],
+			[5, IT::NAME],
+			[6, StarCorp::NAME],
+			[7, 7],
+			[8, 8],
+			[9, StarCorp::NAME],
+			[10, IT::NAME],
+			[11, 11],
+			[12, StarCorp::NAME],
+			[13, 13],
+			[14, 14],
+			[15, StarCorpianos::NAME]
+        ];
+    }
+
+    /**
+     * @dataProvider dataEntities
+     */
+    public function testMergeEntities($value, $expected)
+    {
+		$entityManager = new EntityManager(15);
+		$entityManager->mergeEntitiesIntoNumbers([new Starcorp, new IT, new StarCorpianos], 15);
+        $this->assertEquals($expected, $entityManager->getNumber($value));
 	}
 
 	public function dataEntityNull()
@@ -158,10 +187,10 @@ class EntityManagerTest extends TestCase
     /**
      * @dataProvider dataEntityNull
      */
-	public function testeMergeEntityNull($value, $expected)
+	public function testMergeEntityNull($value, $expected)
 	{
-		$entity = new EntityManager(15);
-		$entity->mergeEntitiesIntoNumbers([null], 15);
-        $this->assertEquals($expected, $entity->getNumber($value));
+		$entityManager = new EntityManager(15);
+		$entityManager->mergeEntitiesIntoNumbers([null], 15);
+        $this->assertEquals($expected, $entityManager->getNumber($value));
 	}
 }
